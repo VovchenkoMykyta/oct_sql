@@ -1,0 +1,42 @@
+1. Выбрать имя препода, и названия предмета который он может читать
+
+SELECT teachers.name, lessons.name FROM teachers 
+INNER JOIN teachers_lessons on teachers_lessons.teacher_id = teachers.id
+INNER JOIN lessons on teachers_lessons.teacher_id = lessons.id;
+
+2. Выбрать имя, фамилия, мыло студента, название группы в которой он учится
+
+SELECT students.name, students.last_name, students.email, groups.name FROM students INNER JOIN groups_students on groups_students.student_id = students.id INNER JOIN `groups` on groups_students.group_id = groups.id
+
+3. Мыло студента который в данный момент проходит обучение
+
+SELECT students.email FROM students INNER JOIN groups_students on groups_students.student_id = students.id INNER JOIN `groups` on groups_students.group_id = groups.id WHERE groups.graduate_date is null;
+
+4. Название группы которая выпустилась
+
+SELECT groups.name FROM `groups` WHERE graduate_date is not null;
+
+5. Имя, фамилия препода который в данный момент не ведет не одной группы
+
+SELECT teachers.name, teachers.last_name FROM teachers 
+LEFT JOIN `groups` on groups.teacher_id = teachers.id WHERE groups.teacher_id is null
+
+6. Кол-во групп которые выпустились и общее кол-во студентов из них.
+
+SELECT COUNT(groups.id), COUNT(students.id) FROM `groups`
+INNER JOIN groups_students on groups_students.group_id = groups.id
+INNER JOIN students on groups_students.student_id = students.id WHERE groups.graduate_date is not null
+
+7. имя, фамилия, препода и кол-во предметов которые он может читать
+
+!!!Надо доделать!!!
+
+SELECT teachers.name, COUNT(lessons.id) FROM teachers
+INNER JOIN teachers_lessons on teachers_lessons.teacher_id = teacher_id
+INNER JOIN lessons on teachers_lessons.lesson_id = lessons.id
+GROUP BY teachers.name
+
+//===========
+SELECT teachers.name, teachers.last_name, lessons.name FROM teachers
+INNER JOIN teachers_lessons on teachers_lessons.teacher_id = teacher_id
+INNER JOIN lessons on teachers_lessons.lesson_id = lessons.id
